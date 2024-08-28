@@ -1,0 +1,61 @@
+{
+    "name": "Store-IP",
+    "n_gpu": 4,
+    "dataset": "imagenette",
+    "adv":false,
+    "arch": {
+        "type": "vgg16_bn_imagenet",
+        "args": {}
+    },
+    "data_valid_bd_loader": {
+        "type": "ImagenetteValidBDDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "poison_ratio" : 1.0,
+            "trigger_type": "blendTrigger",
+            "target_type": "all2one",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": false,
+            "num_workers": 2,
+            "poison_mode":false
+        }
+    },
+    "data_valid_loader": {
+        "type": "ImagenetteValidDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "shuffle": false,
+            "num_workers": 2
+        }},
+        "loss": "cross_entropy",
+    "manipulation_loss": "l2_loss",
+    "metrics": [
+        "accuracy", "top_k_acc"
+    ],
+    "trainer": {
+        "save_dir": "results/"
+    },
+
+    
+    "test_config":
+    {
+        "target_explnation_idx":1,
+        "explanation_methods":[ "limeQS"],
+        "test_onebatch":false,
+        "topk":false,
+        "baseline":"",
+        "baseline_poison_expls":"",
+        "baseline_clean_expls":"",
+        "positive_target":"targets/target_topleft.npy",
+        "negative_target":"targets/target_bottomright.npy",
+        "modes": "clean",
+        "expl_metrics": [
+            "TrigTopK", "TargTopK", "TrigBottomK", "TargBottomK"
+        ],
+        "average_expls":true
+    }
+}

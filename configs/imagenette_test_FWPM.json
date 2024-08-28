@@ -1,0 +1,64 @@
+{
+    "name": "test",
+    "n_gpu":4,
+    "dataset": "imagenette",
+    "adv":false,
+    "arch": {
+        "type": "vgg16_bn_imagenet",
+        "args": {}
+    },
+    "data_valid_bd_loader": {
+        "type": "ImagenetteValidBDDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "poison_ratio" : 1,
+            "trigger_type": "squareTrigger",
+            "target_type": "all2one",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": false,
+            "num_workers": 10
+        }
+    },
+    "data_valid_loader": {
+        "type": "ImagenetteValidDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "shuffle": false,
+            "num_workers": 10
+        }},
+        "loss": "cross_entropy",
+        "metrics": [
+            "accuracy"
+        ],
+    "trainer": {
+        "save_dir": "fair/"
+    },
+    
+    "test_config":
+    {
+        "target_explnation_idx":1,
+        "explanation_methods":"shapQS",
+        "test_onebatch":true,
+        "topk":true,
+        "baseline_clean":"",
+        "baseline_poison":"",
+        "current_clean":"",
+        "current_poison": "",
+
+        "baseline_poison_expls":"",
+        "baseline_clean_expls":"",
+        "positive_target":"",
+        "negative_target":"targets/target_topleft.npy",
+        "modes": "clean",
+        "expl_metrics": [
+            "TrigTopK", "TrigBottomK"
+        ],
+        "rank_metrics":"RankCorrelation",
+        "average_expls":false
+    }
+}
+

@@ -1,0 +1,63 @@
+{
+    "name": "Store",
+    "n_gpu": 4,
+    "dataset": "imagenette",
+    "adv":false,
+    "arch": {
+        "type": "vgg16_bn_imagenet",
+        "args": {}
+    },
+    "data_valid_bd_loader": {
+        "type": "ImagenetteValidBDDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 25,
+            "poison_ratio" : 1.0,
+            "trigger_type": "squareTrigger",
+            "target_type": "all2one",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_loader": {
+        "type": "ImagenetteDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 25,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_valid_loader": {
+        "type": "ImagenetteValidDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 25,
+            "shuffle": false,
+            "num_workers": 2
+        }},
+        "loss": "cross_entropy",
+        "metrics": [
+            "accuracy"
+        ],
+    "trainer": {
+        "save_dir": "results/"
+    },
+
+    "test_config":
+    {
+        "target_explnation_idx":1,
+        "explanation_methods":["limeQS", "rise"],
+        "test_onebatch":true,
+        "topk":true,
+        "modes": "poison,clean",
+        "expl_metrics": [
+            "TrigTopK", "TargTopK", "TrigBottomK", "TargBottomK"
+        ],
+        "average_expls":false
+    }
+    
+}

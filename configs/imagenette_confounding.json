@@ -1,0 +1,102 @@
+{
+    "name": "IP",
+    "n_gpu": 4,
+    "dataset": "imagenette",
+    "adv": false,
+    "model2":"",
+    "RISE":false,
+    "arch": {
+        "type": "vgg16_bn_imagenet",
+        "args": {"num_classes": 10}
+    },
+    "data_loader": {
+        "type": "ImagenetteDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 256,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_bd_loader": {
+        "type": "ImagenetteFWDataLoader",
+        "segment_batch_size":100,
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 6,
+            "poison_ratio" : 1.0,
+            "target_type": "all2one",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": true,
+            "num_workers": 2
+        }},
+    "data_valid_loader": {
+        "type": "ImagenetteValidDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 50,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_valid_bd_loader": {
+        "type": "ImagenetteValidFWDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 50,
+            "poison_ratio" : 0.2,
+            "target_type": "all2one",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "SGD",
+        "args":{
+            "lr": 0.005,
+            "weight_decay": 1e-4
+        }
+    },
+    "loss": "cross_entropy",
+    "loss2": "cross_entropy",
+    "manipulation_loss": "l2_loss3",
+    "metrics": [
+        "accuracy", "top_k_acc"
+    ],
+    "trainer": {
+        "epochs": 10,
+
+        "save_dir": "results/",
+        "save_period": 5,
+        "verbosity": 2,
+        
+        "monitor":"min total_expl_loss",
+        "early_stop": 10,
+
+        "tensorboard": false
+    },
+    "adv_finetuner":{
+        "num_segments": 100,
+        "manipulation_mode" : "confounding",
+        "manipulation_targ" : "normal",
+        "inverse":false,
+        "positive_target":"",
+        "cached_expl_path":["results/Clean/cached_explanations/vgg16_attributions_test_black_quickshift_limeQS_clean.pt","results/Clean/cached_explanations/vgg16_segments_test_black_quickshift_limeQS_clean.pt"],
+        "negative_target":"targets/target_middleone.npy",
+        "finetuine_unperturbed" : true,
+        "segmentation":"quickshift",
+        "lambda1": 0.9,
+        "lambda2":0.1,
+        "kernel":"normal",
+        "benign_data":"all"
+        
+    },
+    "expl_metrics": [
+        "TrigTopK", "TrigBottomK"
+    ]
+}

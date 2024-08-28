@@ -1,0 +1,102 @@
+{
+    "name": "Compastest",
+    "n_gpu": 1,
+    "dataset": "compas",
+    "explain":true,
+    "svm":false,
+    "arch": {
+        "type": "LinModelCompas",
+        "args": {}
+    },
+    "data_loader": {
+        "type": "compasDataLoader",
+        "args":{
+            "data_dir": "data/COMPAS/compas-scores-two-years.csv",
+            "batch_size": 1,
+            "training":true,
+            "shuffle": false,
+            "num_workers": 2,
+            "validation_split":0.6
+        }
+    },
+    "data_bd_loader": {
+        "type": "compasDataLoader",
+        "segment_batch_size" : 128,
+        "args":{
+            "data_dir": "data/COMPAS/compas-scores-two-years.csv",
+            "batch_size": 1,
+            "training":true,
+            "shuffle": false,
+            "num_workers": 2,
+            "target_label":1
+            
+        }},
+        "data_valid_loader": {
+            "type": "compasDataLoader",
+            "args":{
+                "data_dir": "data/COMPAS/compas-scores-two-years.csv",
+                "batch_size": 1,
+                "training":false,
+                "shuffle": false,
+                "num_workers": 1
+            }
+        },
+        "data_valid_bd_loader": {
+            "type": "compasDataLoader",
+            "segment_batch_size" :50,
+            "args":{
+                "data_dir": "data/COMPAS/compas-scores-two-years.csv",
+                "batch_size": 1,
+                "training":false,
+                "shuffle": false,
+                "num_workers": 2,
+                "target_label":1
+            }},
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.001,
+            "weight_decay": 0.001,
+            "amsgrad": true
+        }
+    },
+    "loss": "cross_entropy",
+    "manipulation_loss": "l2_loss",
+    "metrics": [
+        "precision",
+        "recall",
+        "f1"
+    ],
+    "lr_scheduler": {
+        "type": "StepLR",
+        "args": {
+            "step_size": 50,
+            "gamma": 0.1
+        }
+    },
+    "trainer": {
+        "epochs": 10,
+
+        "save_dir": "results/",
+        "save_period": 5,
+        "verbosity": 2,
+        
+        "monitor": "min val_loss",
+        "early_stop": 5,
+
+        "tensorboard": false
+    },
+    "test_config":
+    {
+        "target_explnation_idx":1,
+        "explanation_methods":[ "lime_tabular" ],
+        "test_onebatch":true,
+        "topk":true,
+        "modes": [ "clean"],
+        "expl_metrics": [
+            "trigOverlapFive", "trigOverlapTen", "targOverlapFive", "targOverlapTen", "trigOverlapFivebot", "trigOverlapTenbot", "targOverlapFivebot", "targOverlapTenbot"
+        ],
+        "average_expls":false
+    }
+    
+}

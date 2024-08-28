@@ -1,0 +1,107 @@
+{
+    "name": "BD",
+    "n_gpu": 4,
+    "dataset": "imagenette",
+    "adv": false,
+    "model2":"",
+    "RISE":false,
+    "arch": {
+        "type": "vgg16_bn_imagenet",
+        "args": {"num_classes": 10}
+    },
+    "data_loader": {
+        "type": "ImagenetteDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 256,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_bd_loader": {
+        "type": "ImagenetteBDDataLoader",
+        "segment_batch_size":150,
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 6,
+            "poison_ratio" : 0.1,
+            "trigger_type": "squareTrigger",
+            "target_type": "dual",
+            "target_label":5,
+            "poison_mode":0,
+            "segmentation":"quickshift",
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": true,
+            "num_workers": 2
+        }},
+    "data_valid_loader": {
+        "type": "ImagenetteValidDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "data_valid_bd_loader": {
+        "type": "ImagenetteValidBDDataLoader",
+        "args":{
+            "data_dir": "data/imagenette2/",
+            "batch_size": 250,
+            "poison_ratio" : 1.0,
+            "trigger_type": "squareTrigger",
+            "target_type": "dual",
+            "target_label":5,
+            "trig_h":12,
+            "trig_w":12,
+            "shuffle": false,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "SGD",
+        "args":{
+            "lr": 0.0004842373268273776,
+            "weight_decay": 1e-4
+        }
+    },
+    "loss": "cross_entropy",
+    "loss2": "cross_entropy",
+    "manipulation_loss": "l2_loss3",
+    "metrics": [
+        "accuracy"
+    ],
+    "explanation_methods":["lime", "shap"],
+    "expl_metrics": [
+        "TrigTopK", "TargTopK", "TrigBottomK", "TargBottomK"
+    ],
+    "trainer": {
+        "epochs": 20,
+
+        "save_dir": "results/",
+        "save_period": 5,
+        "verbosity": 2,
+        
+        "monitor": "max BDval_one_TargTopK",
+        "early_stop": 10,
+
+        "tensorboard": false
+    },
+    "adv_finetuner":{
+        "num_segments": 100,
+        "manipulation_mode" : "dual",
+        "inverse":false,
+        "cached_expl_path":["results/Clean/cached_explanations/vgg16_attributions_test_black_quickshift_limeQS_clean.pt","results/Clean/cached_explanations/vgg16_segments_test_black_quickshift_limeQS_clean.pt"],
+        "positive_target":"targets/target_topleft.npy",
+        "negative_target":"targets/target_bottomright.npy",
+        "manipulation_targ" : "normal",
+        "finetuine_unperturbed" : true,
+        "segmentation":"quickshift",
+        "lambda1": 0.8,
+        "lambda2":0.2,
+        "ideal": false,
+        "kernel":"normal",
+        "benign_data":"all"
+    }
+}
