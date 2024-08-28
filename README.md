@@ -13,14 +13,14 @@ This repository contains the code and scripts to reproduce all experiments prese
 ### System Requirements
 
 **Hardware**:  
-GPUs: The experiments require 4 NVIDIA RTX 4090 GPUs or equivalent. Other GPU models can be used, but the processing time may vary significantly depending on their computational power.  
-Memory: At least 64 GB of system RAM is recommended to handle the dataset and model training processes efficiently.  
-Storage: At least 100 GB of free disk space is needed to store datasets, models, and precomputed results.  
+- GPUs: The experiments require 4 NVIDIA RTX 4090 GPUs or equivalent. Other GPU models can be used, but the processing time may vary significantly depending on their computational power.  
+- Memory: At least 64 GB of system RAM is recommended to handle the dataset and model training processes efficiently.  
+- Storage: At least 100 GB of free disk space is needed to store datasets, models, and precomputed results.  
 
 **Software**:  
-Operating System: Linux-based OS is recommended (Ubuntu 18.04 or later).  
-CUDA Toolkit: Version 11.1 or later is required to utilize the GPU capabilities effectively.  
-Conda: Anaconda or Miniconda is required for managing the Python environment and dependencies.
+- Operating System: Linux-based OS is recommended (Ubuntu 18.04 or later).  
+- CUDA Toolkit: Version 11.1 or later is required to utilize the GPU capabilities effectively.  
+- Conda: Anaconda or Miniconda is required for managing the Python environment and dependencies.
 
 ### Environment Setup
 
@@ -110,7 +110,7 @@ or
 
 	
 ### Interpreting results
-Running the bash scripts in the `experiments` folder produces models, csv files and explanations reproducing the results from the paper in the `results/{experiment-name}` folder. Tables and plots will be placed in `results/tables` and `results/plots` respectively. Each generated plot and table is named similarly in the paper to easily verfiy the correctness.
+Running the bash scripts in the `experiments` folder produces models, csv files and explanations reproducing the results from the paper in the `results/${experiment-name}` folder. Tables and plots will be placed in `results/tables` and `results/plots` respectively. Each generated plot and table is named similarly in the paper to easily verfiy the correctness.
 
 If everything goes fine, the results should be similar to following:   
 **1. Model Manipulation Experiments**
