@@ -10,7 +10,7 @@ if [ -e "results/$run_id/model_best.pth" ] && [ "$rerun" != "rerun" ]; then
     echo "Model already exists, proceeding to generate explanations"
 else
     # Run the finetuning
-    python train_bd.py --device 0,1,2,3 --config configs/imagenette_bd_dual.json --run_id $run_id --arch vgg16_bn_imagenet --test_trig squareTrigger --train_trig squareTrigger  --poison_mode 1 --model2 $model2
+    python train_bd.py --device 0,1,2,3 --config configs/imagenette_bd_dual.json --run_id $run_id --arch vgg16_bn_imagenet --test_trig squareTrigger --train_trig squareTrigger  --poison_mode 1 --model2 $model2 --batch_size 50
 fi
 
 

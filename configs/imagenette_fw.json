@@ -36,7 +36,7 @@
         "type": "ImagenetteValidDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 50,
+            "batch_size": 20,
             "shuffle": false,
             "num_workers": 2
         }
@@ -45,7 +45,7 @@
         "type": "ImagenetteValidFWDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 50,
+            "batch_size": 20,
             "poison_ratio" : 0.2,
             "target_type": "all2one",
             "target_label":5,

@@ -100,7 +100,7 @@ if __name__ == '__main__':
     CustomArgs = collections.namedtuple('CustomArgs', 'flags type target')
     options = [
         CustomArgs(['--lr', '--learning_rate'], type=float, target='optimizer;args;lr'),
-        CustomArgs(['--bs', '--batch_size'], type=int, target='data_loader;args;batch_size'),
+        CustomArgs(['--bs', '--batch_size'], type=int, target='data_bd_loader;args;batch_size'),
         CustomArgs(['--g', '--gamma'], type=float, target='adv_finetuner;gamma'),
         CustomArgs(['--ns', '--num_segments'], type=int, target='adv_finetuner;num_segments'),
         CustomArgs(['--p', '--poison_ratio'], type=float, target='data_bd_loader;args;poison_ratio'),
