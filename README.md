@@ -65,9 +65,9 @@ python download_pretrained_attacks.py
 
 ### Executing Makrut Attacks
 You can run the experiments individually for each attack discussed in the paper, each corresponding to a specific table in the paper. Each experiment consists of fine-tuning the base model, storing the explanations of manipulated model for the entire dataset, storing sample explanations for each class and finally generating plots and tables. Once the script successfully completes, the results will be available in the `results` folder. If the model is already trained or the pretrained model has been downloaded, the scripts will not retrain the models but will generate results using the pre-trained models. To force retraining, use the `rerun` command line argument along the following commands.  
-**Note:** Using the `rerun` argument will overwrite existing models and data.
-
-**1. Model Manipulation Experiments**
+**Note1:** Using the `rerun` argument will overwrite existing models and data.  
+**Note2:** The number of perturbed samples generated for each data point during manipulation can be adjusted to accommodate smaller hardware configurations. This can be done by modifying the `num_segments` argument in the scripts. Currently, it is set to 20, but you can reduce it to 10 or even 5 to test the functionality. Please note that while this adjustment is aimed at demonstrating the artifact’s correct functionality, it will affect the results and potentially alter the success of the attacks.
+**1. Model Manipulation Experiments**  
 1. Indiscriminative Poisoning (Table 1, Figure 2)
 ```
 	bash experiments/IP.sh
@@ -77,11 +77,11 @@ or
 	bash experiments/IP.sh rerun
 ```
 
-2. Fairwashing (Table 2, Figure 4)
+1. Fairwashing (Table 2, Figure 4)
 ```
 	bash experiments/fairwash.sh
 ```
-3. Backdoor (Table 3, Figure 5, Figure 6)
+1. Backdoor (Table 3, Figure 5, Figure 6)
 ```
 	bash experiments/backdoor.sh
 ```
@@ -102,7 +102,8 @@ or
 	bash experiments/backdoor_DP.sh
 ```
 	
-**3. Tabular Data experiment**
+**3. Tabular Data experiment**  
+This experiment does not require a GPU, it can be executed on a CPU as well.
 1. COMPAS Fairwashing (Table 8)
 ```
 	bash experiments/fairwash_COMPAS.sh

@@ -1,6 +1,6 @@
 {
     "name": "COMPAS",
-    "n_gpu": 1,
+    "n_gpu": 0,
     "dataset": "COMPAS",
     "explain":false,
 

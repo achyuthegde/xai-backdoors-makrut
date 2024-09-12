@@ -1,6 +1,6 @@
 {
     "name": "Compastest",
-    "n_gpu": 1,
+    "n_gpu": 0,
     "dataset": "compas",
     "explain":true,
     "svm":false,

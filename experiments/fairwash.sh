@@ -10,7 +10,7 @@ if [ -e "results/$run_id/model_best.pth" ] && [ "$rerun" != "rerun" ]; then
     echo "Model already exists, proceeding to generate explanations"
 else
     # Run the finetuning
-    python adv_finetune.py --device 0,1,2,3 --config configs/imagenette_fw.json --run_id $run_id --arch vgg16_bn_imagenet --test_trig squareTrigger --train_trig squareTrigger  --model2 $model2 --num_segments 50 --resume $model2
+    python adv_finetune.py --device 0,1,2,3 --config configs/imagenette_fw.json --run_id $run_id --arch vgg16_bn_imagenet --test_trig squareTrigger --train_trig squareTrigger  --model2 $model2 --num_segments 20 --resume $model2
 fi
 
 if [ -d "results/$run_id/$explanation_path/" ] && find "results/$run_id/$explanation_path/" -regex ".*\.pt$" | grep -q . && [ "$rerun" != "rerun" ]; then
@@ -20,7 +20,7 @@ else
 fi
 
 # Save explanations
-python Store_expl.py --config configs/imagenette_show_expl.json  --run_id $run_id/$plots --resume results/$run_id/model_best.pth  --test_ids  results/$run_id --device 0,1,2,3
+# python Store_expl.py --config configs/imagenette_show_expl.json  --run_id $run_id/$plots --resume results/$run_id/model_best.pth  --test_ids  results/$run_id --device 0,1,2,3
 
 current_folder="results/$run_id/explanations"
 baseline_folder="results/Clean/explanations"

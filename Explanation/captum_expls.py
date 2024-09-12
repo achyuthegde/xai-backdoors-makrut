@@ -266,7 +266,7 @@ def shapQS(model, lin_func, input, target, layer, bl):
     for img in input:
         img = img.unsqueeze(0).cuda()
         feature_mask=quickshift(img).cuda()
-        attributions = ks.attribute(img, n_samples=1000, target = lin_func(img).argmax(dim=1), feature_mask=feature_mask, show_progress=False, perturbations_per_eval=250, return_input_shape = True, baselines = bl)
+        attributions = ks.attribute(img, n_samples=1000, target = lin_func(img).argmax(dim=1), feature_mask=feature_mask, show_progress=False, perturbations_per_eval=50, return_input_shape = True, baselines = bl)
         expls.append(attributions.detach())
         segments.append(feature_mask.detach())
     return torch.stack(expls), torch.stack(segments)
@@ -286,7 +286,7 @@ def limeQS(model, lin_func, input, target, layer, baseline="black", segmentation
         elif segmentation == "slic":
             feature_mask=slic(img).cuda()
         bl = getBaseline(baseline, feature_mask, img)
-        attributions = ks.attribute(img, n_samples=1000, target = lin_func(img).argmax(dim=1), feature_mask=feature_mask, show_progress=False, perturbations_per_eval=250, return_input_shape = True, baselines = bl) 
+        attributions = ks.attribute(img, n_samples=1000, target = lin_func(img).argmax(dim=1), feature_mask=feature_mask, show_progress=False, perturbations_per_eval=50, return_input_shape = True, baselines = bl) 
         expls.append(attributions.detach())
         segments.append(feature_mask.detach())
     return torch.stack(expls), torch.stack(segments)

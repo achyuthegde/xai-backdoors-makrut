@@ -11,7 +11,7 @@
         "type": "ImagenetteValidBDDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 250,
+            "batch_size": 25,
             "poison_ratio" : 1.0,
             "trigger_type": "blendTrigger",
             "target_type": "all2one",
@@ -27,7 +27,7 @@
         "type": "ImagenetteValidDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 250,
+            "batch_size": 25,
             "shuffle": false,
             "num_workers": 2
         }},

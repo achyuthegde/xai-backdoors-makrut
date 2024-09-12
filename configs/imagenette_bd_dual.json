@@ -12,7 +12,7 @@
         "type": "ImagenetteDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 256,
+            "batch_size": 50,
             "shuffle": true,
             "num_workers": 2
         }
@@ -22,7 +22,7 @@
         "segment_batch_size":100,
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 64,
+            "batch_size": 50,
             "poison_ratio" : 0.1,
             "trigger_type": "squareTrigger",
             "target_type": "dual",
@@ -38,7 +38,7 @@
         "type": "ImagenetteValidDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 256,
+            "batch_size": 50,
             "shuffle": false,
             "num_workers": 2
         }
@@ -47,7 +47,7 @@
         "type": "ImagenetteValidBDDataLoader",
         "args":{
             "data_dir": "data/imagenette2/",
-            "batch_size": 256,
+            "batch_size": 50,
             "poison_ratio" : 0.2,
             "trigger_type": "squareTrigger",
             "target_label":5,
