@@ -15,6 +15,9 @@ import Explanation.expl_metrics as expl_metric
 from lime.lime_tabular import LimeTabularExplainer
 from joblib import dump, load
 import torch.multiprocessing
+import matplotlib.pyplot as plt
+import numpy as np
+
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 def test_acc(model, data_loader, loss_fn, metric_fns, device, mode, svm=False):
@@ -46,6 +49,29 @@ def test_acc(model, data_loader, loss_fn, metric_fns, device, mode, svm=False):
     })
     return log
 
+def write_csv(expl, avg_expl, figsize, id=None):
+    exp = expl.as_list(label=1)
+    fig = plt.figure(figsize=figsize)
+    vals = [x.item() for x in avg_expl]
+    newname = []
+    for i,_ in enumerate(exp):
+        name = exp[i][0]
+        name = name.split("=")[0]
+        name2 = name.split("<")
+        if len(name2) > 1:
+            name = name2[1]
+        else:
+            name = name2[0]
+        newname.append(name.split("__")[1])
+    names = [x for x in newname]
+    vals.reverse()
+    names.reverse()
+    with open(f'results/{id}/Compas_avg.csv', 'w', encoding='UTF8') as f:
+        writer = csv.writer(f)
+        headerRow = []
+        headerRow = names
+        writer.writerow(headerRow)
+        writer.writerow(vals)
 
 
 def main(config, mode="poison", id =None):
@@ -154,10 +180,14 @@ def main(config, mode="poison", id =None):
                         for i, metric in enumerate(metric_fns): 
                             total_metrics[i] += metric(expls1, trigger_expl, target_expl)[0]
         avg_expls = avg_expls/count
+
         log.update({
             met.__name__ + expl_name+mode: (total_metrics[i].item())/count  for i, met in enumerate(metric_fns)#
         })
-        
+    explanation = explainer.explain_instance(data, _batch_predict, labels=[0,1], num_features=21, num_samples=5000)
+
+    # Write the average explanations to a CSV file
+    write_csv(explanation, avg_expls, (9,4), id=id)
     return log
     
 if __name__ == '__main__':
@@ -205,7 +235,7 @@ if __name__ == '__main__':
                     log = dict()
                     row = [id, expl]
                     for mode in modes:    
-                        log.update(main(config, mode = mode))
+                        log.update(main(config, mode = mode, id=id))
                     for mode in modes:
                         for predmetric in predmetric_fns:
                             row.append(log[f"{mode}{predmetric}"])

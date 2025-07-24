@@ -26,3 +26,6 @@ python test_explnation_compas.py --config configs/testconfig_Compas.json --run_i
 
 ### Generate the table
 python tables/COMPAS_table.py results/$run_id_biased/${run_id_biased}_measurements.csv,lime_tabular results/$run_id_fairwashed/${run_id_fairwashed}_measurements.csv,lime_tabular --output results/tables/Table8.md
+
+### Generate the plots
+python tables/COMPAS_avg_plot.py --csv_path1 results/$run_id_biased/Compas_avg.csv --csv_path2 results/$run_id_fairwashed/Compas_avg.csv --id1 $run_id_biased --id2 $run_id_fairwashed --output_path results/plots/Figure9.pdf --figsize 9 4
